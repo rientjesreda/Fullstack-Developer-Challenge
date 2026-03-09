@@ -6,11 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
- 
+ use Illuminate\Database\Eloquent\Builder;
 // ...
  
 
  
+protected static function booted(): void
+{
+    if (auth()->check()) {
+        static::addGlobalScope('by_user', function (Builder $builder) {
+            $builder->where('user_id', auth()->id());
+        });
+    }
+}
+
 class Category extends Model
 {
     use HasFactory;
@@ -29,4 +38,19 @@ class Category extends Model
 {
     return $this->hasMany(Transaction::class);
 }
+
+use Illuminate\Database\Eloquent\Builder;
+ 
+// ...
+ 
+protected static function booted(): void
+{
+    if (auth()->check()) {
+        static::addGlobalScope('by_user', function (Builder $builder) {
+            $builder->where('user_id', auth()->id());
+        });
+    }
+}
+
+
 }

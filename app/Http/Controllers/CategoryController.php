@@ -53,3 +53,12 @@ class CategoryController extends Controller
         return response()->noContent();
     }
 }
+// ...
+ 
+public function store(StoreCategoryRequest $request)
+{
+    return new CategoryResource(Category::create($request->validated()));
+    $category = auth()->user()->categories()->create($request->validated());
+ 
+    return new CategoryResource($category);
+}

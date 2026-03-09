@@ -16,6 +16,7 @@ class TransactionController extends Controller
         return TransactionResource::collection(Transaction::all());
     }
  
+    
     /**
      * Store a newly created resource in storage.
      */
@@ -51,4 +52,12 @@ class TransactionController extends Controller
  
         return response()->noContent();
     }
+}
+//..
+public function store(StoreTransactionRequest $request)
+{
+    return new TransactionResource(Transaction::create($request->validated()));
+    $transaction = auth()->user()->transactions()->create($request->validated());
+ 
+    return new TransactionResource($transaction);
 }
